@@ -1,0 +1,92 @@
+package petStore;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+
+public class PetStoreTests {
+    //TODO: Test Garage class
+
+        private PetStore petStore;
+        private Animal animal1;
+        private Animal animal2;
+        private Animal animal3;
+
+        @BeforeEach
+        void setUp() {
+            petStore = new PetStore();
+            animal1 = new Animal("Dog", "Golden Retriever", 2, 25.0);
+            animal2 = new Animal("Cat", "Siamese", 1, 35.0);
+            animal3 = new Animal("Fish", "Goldfish", 0.5, 10.0);
+        }
+
+        @Test
+        void testGetAnimals() {
+            List<Animal> animals = petStore.getAnimals();
+            assertNotNull(animals);
+            assertEquals(0, animals.size());
+        }
+
+        @Test
+        void testGetCount() {
+            int count = petStore.getCount();
+            assertEquals(0, count);
+        }
+
+        @Test
+        void testFindAllAnimalsWithMaxKilograms() {
+            petStore.addAnimal(animal1);
+            petStore.addAnimal(animal2);
+            petStore.addAnimal(animal3);
+
+            List<Animal> animals = petStore.findAllAnimalsWithMaxKilograms(1);
+
+            assertEquals(2, animals.size());
+            assertTrue(animals.contains(animal1));
+            assertTrue(animals.contains(animal3));
+        }
+
+        @Test
+        void testAddAnimal() {
+            petStore.addAnimal(animal1);
+
+            List<Animal> animals = petStore.getAnimals();
+            assertEquals(1, animals.size());
+            assertTrue(animals.contains(animal1));
+        }
+
+        @Test
+        void testAddNullAnimal() {
+            assertThrows(IllegalArgumentException.class, () -> petStore.addAnimal(null));
+        }
+
+        @Test
+        void testGetTheMostExpensiveAnimal() {
+            petStore.addAnimal(animal1);
+            petStore.addAnimal(animal2);
+            petStore.addAnimal(animal3);
+
+            Animal mostExpensiveAnimal = petStore.getTheMostExpensiveAnimal();
+
+            assertEquals(animal2, mostExpensiveAnimal);
+        }
+
+        @Test
+        void testFindAllAnimalBySpecie() {
+            petStore.addAnimal(animal1);
+            petStore.addAnimal(animal2);
+            petStore.addAnimal(animal3);
+
+            List<Animal> animals = petStore.findAllAnimalBySpecie("Dog");
+
+            assertEquals(1, animals.size());
+            assertTrue(animals.contains(animal1));
+        }
+    }
+
+}
